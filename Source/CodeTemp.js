@@ -38,31 +38,86 @@ function ConvertP(input) {
     return output;
 }
 
-fetch(url)
-     .then(res => res.json())
-     .then((listData) => {
+//update
+function convert_vi_to_en(str) {
 
-          let Title = document.querySelector('#titlewrap>#title');
-          let capHoc =document.querySelector('#acf-field_648682d389b65');
-          let Lop = document.querySelector('#acf-field_6486830089b66');
-          let mon = document.querySelector('#acf-field_6486831a89b67');
-          let maTaiLieu = document.querySelector('#acf-field_6597878c9e68c');
-          let Gia = document.querySelector('#acf-field_659787989e68d');
-          let luotTai = document.querySelector('#acf-field_6488165df3164');
-          let luotXem = document.querySelector('#acf-field_64881682f3165');
-          let soTrang = document.querySelector('#acf-field_64899c78b54b1');
-          let linkXemThu = document.querySelector('#acf-field_6475ab8d31298');
-          let giaSau = document.querySelector('#_regular_price');
-          let Sach = document.querySelector('#acf-field_6486832c89b68');
-          let loaiTL = document.querySelector('#acf-field_6488422ad2dfc');
+     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a"); str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
 
-          inputBtb.querySelector('.btn-click').addEventListener('click', () => {
+     str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i"); str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+
+     str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+
+     str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+
+     str = str.replace(/đ/g, "d");
+
+     str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+
+     str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+
+     str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+
+     str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+
+     str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+
+     str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+
+     str = str.replace(/Đ/g, "D"); str = str.replace(/!|@|%|\^|\*|\(|\)|\Javascript – Chuyển Tiếng Việt Có Dấu Sang Không Dấu|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+
+     str = str.replace(/ Javascript – Chuyển Tiếng Việt Có Dấu Sang Không Dấu/g, ' ');
+
+     return str;
+}
+
+function convertTitle(title) {
+     title = convert_vi_to_en(title);
+     let text = "";
+     let str= "";
+     for(let i = 0; i < title.length; ++i) {
+          if(title.charCodeAt(i) == 32) {
+               if(text[text.length-1] != '-') {
+                    text += '-';
+               }
+          } else if(title.charCodeAt(i) != 10) {
+               text += title.charAt(i);
+          }
+     }
+     for(let i = 0; i < text.length; ++i) {
+          if((text.charAt(i) >= 'a' && text.charAt(i) <= 'z') || (text.charAt(i) >= 'A' && text.charAt(i) <= 'Z') || ((text.charAt(i) >= '0' && text.charAt(i) <= '9'))) {
+               str += text.charAt(i);
+          } else if(text.charAt(i) == '-' && str[str.length-1] != '-') {
+               str += text.charAt(i);
+          }
+     }
+     return str;
+}
+inputBtb.querySelector('.btn-click').addEventListener('click', () => {
+     fetch(url)
+          .then(res => res.json())
+          .then((listData) => {
+
+               let Title = document.querySelector('#titlewrap>#title');
+               let capHoc =document.querySelector('#acf-field_648682d389b65');
+               let Lop = document.querySelector('#acf-field_6486830089b66');
+               let mon = document.querySelector('#acf-field_6486831a89b67');
+               let maTaiLieu = document.querySelector('#acf-field_6597878c9e68c');
+               let Gia = document.querySelector('#acf-field_659787989e68d');
+               let luotTai = document.querySelector('#acf-field_6488165df3164');
+               let luotXem = document.querySelector('#acf-field_64881682f3165');
+               let soTrang = document.querySelector('#acf-field_64899c78b54b1');
+               let linkXemThu = document.querySelector('#acf-field_6475ab8d31298');
+               let giaSau = document.querySelector('#_regular_price');
+               let Sach = document.querySelector('#acf-field_6486832c89b68');
+               let loaiTL = document.querySelector('#acf-field_6488422ad2dfc');
+
+
                for(let i = 0; i < listData.length; ++i) {
                     if(listData[i].checkBox === false) {
-                         Title.value = `SKKN ${listData[i].title}`;
                          capHoc.value = listData[i].capHoc;
+                         Title.value = `SKKN ${listData[i].title}`;
                          Lop.value = listData[i].lop;
-                         mon.value = listData[i].danhMuc;
+                         mon.value = `${listData[i].danhMuc}`;
                          maTaiLieu.value = listData[i].ma;
                          Gia.value = `${listData[i].gia/1000}.000 đ`;
                          luotTai.value = `${Math.floor(Math.random()*10)}`;
@@ -101,8 +156,7 @@ fetch(url)
                          break;
                     }
                }
-
           })
-     })
-     .catch(error => console.log(error));
+          .catch(error => console.log(error));
+})
 })();
